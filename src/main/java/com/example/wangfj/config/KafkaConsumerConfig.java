@@ -41,9 +41,14 @@ public class KafkaConsumerConfig {
     @Bean
     public KafkaListenerContainerFactory<ConcurrentMessageListenerContainer<String, String>> kafkaListenerContainerFactory() {
         ConcurrentKafkaListenerContainerFactory<String, String> factory = new ConcurrentKafkaListenerContainerFactory<>();
+        //Ack机制监听
+//        factory.getContainerProperties().setAckMode(AbstractMessageListenerContainer.AckMode.MANUAL_IMMEDIATE);
         factory.setConsumerFactory(consumerFactory());
+        //设置并发量，小于或等于topic的分区数
         factory.setConcurrency(concurrency);
         factory.getContainerProperties().setPollTimeout(1500);
+        //开启批量监听
+//        factory.setBatchListener(true);
         return factory;
     }
 
